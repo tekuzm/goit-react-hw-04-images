@@ -19,17 +19,18 @@ const App = () => {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState();
   const [showModal, setShowModal] = useState(false);
   const [largeImage, setLargeImage] = useState('');
-  const [total, setTotal] = useState('');
+  const [total, setTotal] = useState();
 
   useEffect(() => {
     if (search) {
       const fetchImages = async () => {
         try {
           setIsLoading(true);
-          const response = await searchImages(search, page, total);
+          const response = await searchImages(search, page);
+
           const data = response.hits.map(
             ({ id, webformatURL, largeImageURL, tags }) => {
               return {
@@ -44,21 +45,18 @@ const App = () => {
           const totalImgs = response.totalHits;
 
           setImages(prevImages => [...prevImages, ...data]);
-          setTotal(prevTotal => {
-            return { ...prevTotal, totalImgs };
-          });
+          setTotal(totalImgs);
         } catch (error) {
           setError(error.message);
         } finally {
           setIsLoading(false);
         }
       };
-
       fetchImages();
     }
-  }, [search, page, total, setImages, setTotal, setError, setIsLoading]);
+  }, [search, page]);
 
-  const onSearchImages = ({ search }) => {
+  const onSearchImages = search => {
     setSearch(search);
     setImages([]);
     setPage(1);
@@ -69,6 +67,7 @@ const App = () => {
   };
 
   const onModalOpen = data => {
+    debugger;
     setLargeImage(data);
     setShowModal(true);
   };

@@ -6,18 +6,16 @@ import PropTypes from 'prop-types';
 import styles from './Searchbar.module.css';
 
 const Searchbar = ({ onSubmit }) => {
-  const [state, setState] = useState('');
+  const [search, setSearch] = useState('');
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmit({ ...state });
+    onSubmit(search);
   };
 
   const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setState(prevState => {
-      return { ...prevState, [name]: value };
-    });
+    const { value } = target;
+    setSearch(value);
   };
 
   return (
@@ -30,7 +28,7 @@ const Searchbar = ({ onSubmit }) => {
         <input
           className={styles.searchForm_input}
           type="text"
-          value={state}
+          value={search}
           name="search"
           onChange={handleChange}
           placeholder="Search images and photos"
