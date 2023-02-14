@@ -1,12 +1,9 @@
 import { useCallback, useEffect } from 'react';
-// import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
 // ========== styles ==========
 
 import styles from './Modal.module.css';
-
-// const modalRoot = document.querySelector('#modal-root');
 
 const Modal = ({ closeModal, children }) => {
   const close = useCallback(
